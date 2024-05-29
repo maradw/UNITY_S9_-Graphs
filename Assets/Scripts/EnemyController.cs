@@ -11,12 +11,12 @@ public class EnemyController : MonoBehaviour
     public float timer;
     public GameObject objective;
     public Vector2 speedReference;
-    public int life;
+    public int energy;
     public bool followPlayer = false;
     public float whileTrue;
     //[SerializeField] private GameObject enemyView;
 
-    [SerializeField] private TextMeshProUGUI lifeState;
+    [SerializeField] private TextMeshProUGUI energyState;
     [SerializeField] private GameObject player;
 
     //
@@ -32,14 +32,14 @@ public class EnemyController : MonoBehaviour
     {
         //newCustom.
         //range.shapeCount
-        if (life <= 0)
+        if (energy<= 0)
         {
             followPlayer = false;
             transform.position = Vector2.zero;
             currentTime = currentTime + Time.deltaTime;
             if (currentTime >= timer)
             {
-                life = 30;
+                energy = 30;
                 currentTime = 0;
             }
         }
@@ -50,11 +50,11 @@ public class EnemyController : MonoBehaviour
                 whileTrue = whileTrue + Time.deltaTime;
                 if (whileTrue >= 1)
                 {
-                    life= life -1;
+                    energy= energy -1;
                     whileTrue = 0;
                 }  
         }
-        else if (life > 0)
+        else if (energy > 0)
         {
             followPlayer = false;
             transform.position = Vector2.SmoothDamp(transform.position, objective.transform.position, ref speedReference, 0.5f);
@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
     }
     public void SetLifeText()
     {
-        lifeState.text = " Life: " + life;
+        energyState.text = " Energy: " + energy;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
     }
     public void RestLife(int weight)
     {
-        life = life - weight;
+        energy = energy - weight;
 
     }
     public void SetRotation()
